@@ -3,18 +3,18 @@
 
 
 /* TEAM */
-  <your title>: <your name>
-  Site:
-  Twitter:
-  Location:
+  <your title>: Horacio Herrera
+  Site: http://www.hherrerag.com
+  Twitter: @hhg2288
+  Location: Barcelone, Spain
 
 /* THANKS */
-  Names (& URL):
+  Names (& URL): Anil Chauhan that made this post and inspired me to make this plugin! :) ( http://www.akchauhan.com/tag/carousel/ )
 
 /* SITE */
   Standards: HTML5, CSS3
   Components: Modernizr, jQuery
-  Software:
+  Software: Coda
 
 
 
