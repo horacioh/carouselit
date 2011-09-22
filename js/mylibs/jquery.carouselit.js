@@ -21,7 +21,7 @@ description		: plugin to made a simple carousel of list objects
 */
 
 
-$.fn.myCarousel = function(step, visible, speed, liSize, prevBtn, nextBtn){
+$.fn.carouselit = function(step, visible, speed, liSize, prevBtn, nextBtn){
 	return this.each(function(){
 	
 		var container = $(this).children();
@@ -33,27 +33,37 @@ $.fn.myCarousel = function(step, visible, speed, liSize, prevBtn, nextBtn){
  
 		$(container).css("width", ulSize+"px").css("left", -(current * liSize)).css("position", "absolute");
  
-		$(this).css("width", divSize+"px").css("height", carousel_height+"px").css("visibility", "visible").css("overflow", "hidden").css("position", "relative"); 
+		$(this).css("width", divSize+"px").css("height", carousel_height+"px").css("visibility", "visible").css("overflow", "hidden").css("position", "relative");
+		if (current == 0){
+			$(prevBtn).css("display", "none");
+		}
  
 		$(nextBtn).click(function(e) {
-			e.preventDefault(); 
+			e.preventDefault();
 			if(current + step < 0 || current + step > maximum - visible) {return; }
 			else {
 				current = current + step;
 				$(container).animate({left: -(liSize * current)}, speed, null);
+				$(prevBtn).css("display", "block");
+				if (current + step == maximum) {
+					$(this).css("display", "none");
+				}
 			}
 			return false;
 		});
  
 		$(prevBtn).click(function(e) {
 			e.preventDefault();
-			if(current - step < 0 || current - step > maximum - visible) {return; }
-			else {
+			if(current - step < 0 || current - step > maximum - visible) {
+				$(this).css("display", "none");
+				return; 
+			} else {
 				current = current - step;
 				$(container).animate({left: -(liSize * current)}, speed, null);
+				$(nextBtn).css("display", "block");
+				if (current == 0) { $(this).css("display", "none"); }
 			}
 			return false;
 		});
-		
 	});
 }
