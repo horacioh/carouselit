@@ -21,26 +21,41 @@ description		: plugin to made a simple carousel of list objects
 */
 
 (function($) {
-	$.fn.carouselit = function(step, visible, speed, liSize, prevBtn, nextBtn){
-		return this.each(function(){
+	$.fn.carouselit = function( options ){
 		
-			var container = $(this).children();
+		var settings = {
+      		'step'			: 1,
+      		'visible'		: 1,
+      		'speed'			: 1000,
+      		'liSize'		: 0,
+      		'prevBtn'		: '#prev',
+      		'nextBtn'		: '#next'
+    	};
+		
+		return this.each(function(){
+      		
+      		if ( options ) {											// If options exist, lets merge them
+        		$.extend( settings, options );							// with our default settings
+      		}
+		
+			var $this = $(this);
+			var container = $this.children();
 			var maximum = $(container).find('li').size(); 
-			var carousel_height = $(this).height()+20;
+			var carousel_height = $this.height()+20;
 	 		var current = 0;
-			var ulSize = liSize * maximum;   
-			var divSize = liSize * visible;
+			var ulSize = settings.liSize * maximum;   
+			var divSize = settings.liSize * settings.visible;
 			
 			
 			// adding some css to the container object (ul)
 			$(container).css({"width"		: ulSize+"px",				// setting the total width of the container object to the total widht of all 'li' childs
-							  "left"		: current * liSize,			// starting position for the container
+							  "left"		: current * settings.liSize,			// starting position for the container
 							  "position"	: "absolute"				// setting it to absolute to get control of it for future positioning changes
 			
 			});
 			
 			// adding some css to the wrapper object (the one you call) ; this element works as a mask for the container, is the visible area of your carousel
-			$(this).css({ "width"		: divSize+"px",					// setting the width of the mask or wrapper
+			$this.css({ "width"		: divSize+"px",					// setting the width of the mask or wrapper
 						  "height"		: carousel_height+"px",			// setting the height of the element
 						  "visibility"	: "visible",
 						  "overflow"	: "hidden",
@@ -50,32 +65,32 @@ description		: plugin to made a simple carousel of list objects
 			});
 			
 			if (current == 0){
-				$(prevBtn).addClass('disable');  // conditional to hide 
+				$(settings.prevBtn).addClass('disable');  // conditional to hide 
 			}
 	 
-			$(nextBtn).click(function(e) {
+			$(settings.nextBtn).click(function(e) {
 				e.preventDefault();
-				if(current + step < 0 || current + step > maximum - visible) {return; }
+				if(current + settings.step < 0 || current + settings.step > maximum - settings.visible) {return; }
 				else {
-					current = current + step;
-					$(container).animate({left: -(liSize * current)}, speed, null);
-					$(prevBtn).removeClass('disable');
-					if (current + step == maximum) {
+					current = current + settings.step;
+					$(container).animate({left: -(settings.liSize * current)}, settings.speed, null);
+					$(settings.prevBtn).removeClass('disable');
+					if (current + settings.step == maximum) {
 						$(this).addClass('disable');
 					}
 				}
 				return false;
 			});
 	 
-			$(prevBtn).click(function(e) {
+			$(settings.prevBtn).click(function(e) {
 				e.preventDefault();
-				if(current - step < 0 || current - step > maximum - visible) {
+				if(current - settings.step < 0 || current - settings.step > maximum - settings.visible) {
 					$(this).addClass('disable');
 					return; 
 				} else {
-					current = current - step;
-					$(container).animate({left: -(liSize * current)}, speed, null);
-					$(nextBtn).removeClass('disable');
+					current = current - settings.step;
+					$(container).animate({left: -(settings.liSize * current)}, settings.speed, null);
+					$(settings.nextBtn).removeClass('disable');
 					if (current == 0) { $(this).addClass('disable'); }
 				}
 				return false;

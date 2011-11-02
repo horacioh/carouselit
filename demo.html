@@ -59,7 +59,14 @@
 	more info in the plugin file
 	*/
 	
-  	$('#carousel-mask').carouselit(3, 3, 500, 330, '#prev', '#next');
+  	$('#carousel-mask').carouselit({
+  		'step'			: 3,
+      	'visible'		: 3,
+      	'speed'			: 500,
+      	'liSize'		: 330,
+      	'prevBtn'		: '#prev',
+      	'nextBtn'		: '#next'
+  	});
   
   });
   </script>
