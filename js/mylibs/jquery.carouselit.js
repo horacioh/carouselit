@@ -11,25 +11,26 @@ description		: plugin to made a simple carousel of list objects
 
 
 	SYNTAX:
-	"selector" .myCarousel( step, visible, speed, liSize, prevBtn, nextBtn );
-		step		--->	 how many blocks it move
-		visible		--->	 how many block are visible
-		speed		--->	 in miliseconds
-		liSize		--->	 width of every li object in pixels
-		prevBtn		--->	 selector of previews anchor object
+	$("yourSelector").carouselit({
+		step		--->	 how many blocks it move			,
+		visible		--->	 how many block are visible			,
+		speed		--->	 in miliseconds						,
+		liSize		--->	 width of every li object in pixels ,
+		prevBtn		--->	 selector of previews anchor object ,
 		nextBtn		--->	 selector of next anchor object
+	});
 */
 
 (function($) {
 	$.fn.carouselit = function( options ){
 		
 		var settings = {
-      		'step'			: 1,
-      		'visible'		: 1,
-      		'speed'			: 1000,
-      		'liSize'		: 0,
-      		'prevBtn'		: '#prev',
-      		'nextBtn'		: '#next'
+      		'step'			: 1,										// How many objects will move when next/prev button is pressed	
+      		'visible'		: 1,										// How many objects are visible
+      		'speed'			: 1000,										// How fast will be the animation
+      		'liSize'		: 0,										// width of every object, should be the same to all (for now)
+      		'prevBtn'		: '#prev',									// object id that will be the 'previews' anchor
+      		'nextBtn'		: '#next'									// object id that will be the 'next' anchor
     	};
 		
 		return this.each(function(){
@@ -48,24 +49,24 @@ description		: plugin to made a simple carousel of list objects
 			
 			
 			// adding some css to the container object (ul)
-			$(container).css({"width"		: ulSize+"px",				// setting the total width of the container object to the total widht of all 'li' childs
-							  "left"		: current * settings.liSize,			// starting position for the container
-							  "position"	: "absolute"				// setting it to absolute to get control of it for future positioning changes
+			$(container).css({"width"		: ulSize+"px",					// setting the total width of the container object to the total widht of all 'li' childs
+							  "left"		: current * settings.liSize,	// starting position for the container
+							  "position"	: "absolute"					// setting it to absolute to get control of it for future positioning changes
 			
 			});
 			
 			// adding some css to the wrapper object (the one you call) ; this element works as a mask for the container, is the visible area of your carousel
-			$this.css({ "width"		: divSize+"px",					// setting the width of the mask or wrapper
-						  "height"		: carousel_height+"px",			// setting the height of the element
+			$this.css({   "width"		: divSize+"px",						// setting the width of the mask or wrapper
+						  "height"		: carousel_height+"px",				// setting the height of the element
 						  "visibility"	: "visible",
 						  "overflow"	: "hidden",
-						  "position"	: "relative"					// this is to set the absolute position of the container relative to this element,
-						  												// and not relative to the whole HTML 
+						  "position"	: "relative"						// this is to set the absolute position of the container relative to this element,
+						  													// and not relative to the whole HTML 
 			
 			});
 			
 			if (current == 0){
-				$(settings.prevBtn).addClass('disable');  // conditional to hide 
+				$(settings.prevBtn).addClass('disable');  					// conditional to hide 
 			}
 	 
 			$(settings.nextBtn).click(function(e) {
@@ -98,3 +99,5 @@ description		: plugin to made a simple carousel of list objects
 		});
 	}
 })(jQuery);
+
+
