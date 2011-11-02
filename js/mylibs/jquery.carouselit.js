@@ -31,22 +31,26 @@ description		: plugin to made a simple carousel of list objects
 			var ulSize = liSize * maximum;   
 			var divSize = liSize * visible;
 			
-			$(container).css({"width"		: ulSize+"px",
-							  "left"		: -(current * liSize),
-							  "position"	: "absolute"
+			
+			// adding some css to the container object (ul)
+			$(container).css({"width"		: ulSize+"px",				// setting the total width of the container object to the total widht of all 'li' childs
+							  "left"		: current * liSize,			// starting position for the container
+							  "position"	: "absolute"				// setting it to absolute to get control of it for future positioning changes
 			
 			});
 			
-			$(this).css({ "width"		: divSize+"px",
-						  "height"		: carousel_height+"px",
+			// adding some css to the wrapper object (the one you call) ; this element works as a mask for the container, is the visible area of your carousel
+			$(this).css({ "width"		: divSize+"px",					// setting the width of the mask or wrapper
+						  "height"		: carousel_height+"px",			// setting the height of the element
 						  "visibility"	: "visible",
 						  "overflow"	: "hidden",
-						  "position"	: "relative"
+						  "position"	: "relative"					// this is to set the absolute position of the container relative to this element,
+						  												// and not relative to the whole HTML 
 			
 			});
 			
 			if (current == 0){
-				$(prevBtn).css("display", "none");
+				$(prevBtn).addClass('disable');  // conditional to hide 
 			}
 	 
 			$(nextBtn).click(function(e) {
@@ -55,9 +59,9 @@ description		: plugin to made a simple carousel of list objects
 				else {
 					current = current + step;
 					$(container).animate({left: -(liSize * current)}, speed, null);
-					$(prevBtn).css("display", "block");
+					$(prevBtn).removeClass('disable');
 					if (current + step == maximum) {
-						$(this).css("display", "none");
+						$(this).addClass('disable');
 					}
 				}
 				return false;
@@ -66,13 +70,13 @@ description		: plugin to made a simple carousel of list objects
 			$(prevBtn).click(function(e) {
 				e.preventDefault();
 				if(current - step < 0 || current - step > maximum - visible) {
-					$(this).css("display", "none");
+					$(this).addClass('disable');
 					return; 
 				} else {
 					current = current - step;
 					$(container).animate({left: -(liSize * current)}, speed, null);
-					$(nextBtn).css("display", "block");
-					if (current == 0) { $(this).css("display", "none"); }
+					$(nextBtn).removeClass('disable');
+					if (current == 0) { $(this).addClass('disable'); }
 				}
 				return false;
 			});
