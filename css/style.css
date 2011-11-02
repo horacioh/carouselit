@@ -243,6 +243,7 @@ h2 {
 	height: 280px;
 	overflow: hidden;  /* THIS IS IMPORTANT */
 	position: relative;
+	background: red;
 }
 
 #container {

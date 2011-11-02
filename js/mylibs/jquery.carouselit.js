@@ -68,13 +68,22 @@ description		: plugin to made a simple carousel of list objects
 			if (current == 0){
 				$(settings.prevBtn).addClass('disable');  					// conditional to hide 
 			}
-	 
+			
+			function moveLeft(){
+				$(container).animate({left: -(settings.liSize * current)}, settings.speed, null);
+				//alert('entro a moveLeft! :)');
+			}
+			
+			function moveRight(){
+				$(container).animate({left: -(settings.liSize * current)}, settings.speed, null);
+			}
+				 
 			$(settings.nextBtn).click(function(e) {
 				e.preventDefault();
 				if(current + settings.step < 0 || current + settings.step > maximum - settings.visible) {return; }
 				else {
 					current = current + settings.step;
-					$(container).animate({left: -(settings.liSize * current)}, settings.speed, null);
+					moveLeft();
 					$(settings.prevBtn).removeClass('disable');
 					if (current + settings.step == maximum) {
 						$(this).addClass('disable');
@@ -90,7 +99,7 @@ description		: plugin to made a simple carousel of list objects
 					return; 
 				} else {
 					current = current - settings.step;
-					$(container).animate({left: -(settings.liSize * current)}, settings.speed, null);
+					moveRight();
 					$(settings.nextBtn).removeClass('disable');
 					if (current == 0) { $(this).addClass('disable'); }
 				}
