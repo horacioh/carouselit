@@ -45,19 +45,25 @@
   </div>  <!-- ender role=main -->
   <footer>
 	<p>made by <a href="http://www.hherrerag.com">Horacio Herrera.</a></p>
+	<p id="tweet"></p>
   </footer>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
   <script>window.jQuery || document.write('<script src="js/libs/jquery-1.6.4.min.js"><\/script>')</script>
   
   <script src="js/mylibs/jquery.carouselit.js"></script>
-  <script type="text/javascript" src="js/libs/jquery.swipe.js"></script>
   
   <script type="text/javascript">
   $(function(){
   	/*
 	SYNTAX:
-	"selector" .myCarousel( step, visible, speed, liSize, prevBtn, nextBtn );
-	more info in the plugin file
+	$("yourSelector").carouselit({
+		step		--->	 how many blocks it move			,
+		visible		--->	 how many block are visible			,
+		speed		--->	 in miliseconds						,
+		liSize		--->	 width of every li object in pixels ,
+		prevBtn		--->	 selector of previews anchor object ,
+		nextBtn		--->	 selector of next anchor object
+	});
 	*/
 	
   	$('#carousel-mask').carouselit({
@@ -68,11 +74,6 @@
       	'prevBtn'		: '#prev',
       	'nextBtn'		: '#next'
   	});
-  	$('#carousel-mask').swipe({
-  		swipeLeft: function() { $('#next').trigger('click'); },
-    	swipeRight: function() { $('#prev').trigger('click'); }
-	});
-  	
   
   });
   </script>

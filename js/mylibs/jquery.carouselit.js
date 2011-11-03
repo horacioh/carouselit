@@ -30,7 +30,12 @@ description		: plugin to made a simple carousel of list objects
       		'speed'			: 1000,										// How fast will be the animation
       		'liSize'		: 0,										// width of every object, should be the same to all (for now)
       		'prevBtn'		: '#prev',									// object id that will be the 'previews' anchor
-      		'nextBtn'		: '#next'									// object id that will be the 'next' anchor
+      		'nextBtn'		: '#next',									// object id that will be the 'next' anchor
+      		'threshold'		: {
+            	x: 10,
+            	y: 10
+        	},
+        	'preventDefaultEvents': true
     	};
 		
 		return this.each(function(){
@@ -46,6 +51,10 @@ description		: plugin to made a simple carousel of list objects
 	 		var current = 0;
 			var ulSize = settings.liSize * maximum;   
 			var divSize = settings.liSize * settings.visible;
+			
+			// Private variables for each element
+        	var originalCoord = { x: 0, y: 0 };
+        	var finalCoord = { x: 0, y: 0 };
 			
 			
 			// adding some css to the container object (ul)
@@ -70,41 +79,84 @@ description		: plugin to made a simple carousel of list objects
 			}
 			
 			function moveLeft(){
-				$(container).animate({left: -(settings.liSize * current)}, settings.speed, null);
-				//alert('entro a moveLeft! :)');
-			}
-			
-			function moveRight(){
-				$(container).animate({left: -(settings.liSize * current)}, settings.speed, null);
-			}
-				 
-			$(settings.nextBtn).click(function(e) {
-				e.preventDefault();
 				if(current + settings.step < 0 || current + settings.step > maximum - settings.visible) {return; }
 				else {
 					current = current + settings.step;
-					moveLeft();
+					$(container).animate({left: -(settings.liSize * current)}, settings.speed, null);
 					$(settings.prevBtn).removeClass('disable');
 					if (current + settings.step == maximum) {
 						$(this).addClass('disable');
 					}
 				}
-				return false;
-			});
-	 
-			$(settings.prevBtn).click(function(e) {
-				e.preventDefault();
+			}
+			
+			function moveRight(){
 				if(current - settings.step < 0 || current - settings.step > maximum - settings.visible) {
 					$(this).addClass('disable');
 					return; 
 				} else {
 					current = current - settings.step;
-					moveRight();
+					$(container).animate({left: -(settings.liSize * current)}, settings.speed, null);
 					$(settings.nextBtn).removeClass('disable');
 					if (current == 0) { $(this).addClass('disable'); }
 				}
+			}
+				 
+			$(settings.nextBtn).click(function(e) {
+				e.preventDefault();
+				moveLeft();
 				return false;
 			});
+	 
+			$(settings.prevBtn).click(function(e) {
+				e.preventDefault();
+				moveRight();
+				return false;
+			});
+			
+			
+        	// Screen touched, store the original coordinate
+        	function touchStart(event) {
+        	    console.log('Starting swipe gesture...')
+        	    originalCoord.x = event.targetTouches[0].pageX
+        	    originalCoord.y = event.targetTouches[0].pageY
+        	}
+			
+        	// Store coordinates as finger is swiping
+        	function touchMove(event) {
+        	    if (settings.preventDefaultEvents)
+        	        event.preventDefault();
+        	    finalCoord.x = event.targetTouches[0].pageX // Updated X,Y coordinates
+        	    finalCoord.y = event.targetTouches[0].pageY
+        	}
+			
+        	// Done Swiping
+        	// Swipe should only be on X axis, ignore if swipe on Y axis
+        	// Calculate if the swipe was left or right
+        	function touchEnd(event) {
+        	    console.log('Ending swipe gesture...')
+        	    var changeX = originalCoord.x - finalCoord.x;
+        	        
+        	        if(changeX > settings.threshold.x) {
+        	            moveLeft();
+        	            console.log('entro a condicional izq');
+        	        }
+        	        if(changeX < (settings.threshold.x*-1)) {
+        	            moveRight();
+        	            console.log('entro a condicional derecha');
+        	        }
+        	}
+			
+        	// Swipe was canceled
+        	function touchCancel(event) { 
+        	    console.log('Canceling swipe gesture...')
+        	}
+			
+        	// Add gestures to all swipable areas
+        	this.addEventListener("touchstart", touchStart, false);
+        	this.addEventListener("touchmove", touchMove, false);
+        	this.addEventListener("touchend", touchEnd, false);
+        	this.addEventListener("touchcancel", touchCancel, false);
 		});
 	}
 })(jQuery);
