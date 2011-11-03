@@ -84,9 +84,7 @@ description		: plugin to made a simple carousel of list objects
 					current = current + settings.step;
 					$(container).animate({left: -(settings.liSize * current)}, settings.speed, null);
 					$(settings.prevBtn).removeClass('disable');
-					if (current + settings.step == maximum) {
-						$(this).addClass('disable');
-					}
+					if (current + settings.step == maximum) { $(settings.nextBtn).addClass('disable'); }
 				}
 			}
 			
@@ -98,7 +96,7 @@ description		: plugin to made a simple carousel of list objects
 					current = current - settings.step;
 					$(container).animate({left: -(settings.liSize * current)}, settings.speed, null);
 					$(settings.nextBtn).removeClass('disable');
-					if (current == 0) { $(this).addClass('disable'); }
+					if (current == 0) { $(settings.prevBtn).addClass('disable'); }
 				}
 			}
 				 
@@ -134,22 +132,22 @@ description		: plugin to made a simple carousel of list objects
         	// Swipe should only be on X axis, ignore if swipe on Y axis
         	// Calculate if the swipe was left or right
         	function touchEnd(event) {
-        	    console.log('Ending swipe gesture...')
+        	    //console.log('Ending swipe gesture...')
         	    var changeX = originalCoord.x - finalCoord.x;
         	        
         	        if(changeX > settings.threshold.x) {
         	            moveLeft();
-        	            console.log('entro a condicional izq');
+        	            //console.log('entro a condicional izq');
         	        }
         	        if(changeX < (settings.threshold.x*-1)) {
         	            moveRight();
-        	            console.log('entro a condicional derecha');
+        	            //console.log('entro a condicional derecha');
         	        }
         	}
 			
         	// Swipe was canceled
         	function touchCancel(event) { 
-        	    console.log('Canceling swipe gesture...')
+        	    //console.log('Canceling swipe gesture...')
         	}
 			
         	// Add gestures to all swipable areas
