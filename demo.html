@@ -50,6 +50,7 @@
   <script>window.jQuery || document.write('<script src="js/libs/jquery-1.6.4.min.js"><\/script>')</script>
   
   <script src="js/mylibs/jquery.carouselit.js"></script>
+  <script type="text/javascript" src="js/libs/jquery.swipe.js"></script>
   
   <script type="text/javascript">
   $(function(){
@@ -59,7 +60,19 @@
 	more info in the plugin file
 	*/
 	
-  	$('#carousel-mask').carouselit(3, 3, 500, 330, '#prev', '#next');
+  	$('#carousel-mask').carouselit({
+  		'step'			: 3,
+      	'visible'		: 3,
+      	'speed'			: 500,
+      	'liSize'		: 330,
+      	'prevBtn'		: '#prev',
+      	'nextBtn'		: '#next'
+  	});
+  	$('#carousel-mask').swipe({
+  		swipeLeft: function() { $('#next').trigger('click'); },
+    	swipeRight: function() { $('#prev').trigger('click'); }
+	});
+  	
   
   });
   </script>

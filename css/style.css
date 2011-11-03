@@ -289,9 +289,14 @@ h2 {
 	right: 0px;
 }
 
-#prev:hover, #next:hover {
+#prev:hover, #next:hover, #prev.disable, #next.disable {
 	background: #999;
 	color: black;
+}
+
+#prev.disable, #next.disable {
+	pointer-events: none;
+    cursor: default;
 }
 
 footer {
