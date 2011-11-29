@@ -31,6 +31,9 @@ description		: plugin to made a simple carousel of list objects
       		'liSize'		: 0,										// width of every object, should be the same to all (for now)
       		'prevBtn'		: '#prev',									// object id that will be the 'previews' anchor
       		'nextBtn'		: '#next',									// object id that will be the 'next' anchor
+      		'hasPagination' : false,
+      		'_current'		: '',
+      		'_maximun'		: '',
       		'threshold'		: {
             	x: 10,
             	y: 10
@@ -51,6 +54,8 @@ description		: plugin to made a simple carousel of list objects
 	 		var current = 0;
 			var ulSize = settings.liSize * maximum;   
 			var divSize = settings.liSize * settings.visible;
+			var pagination = ((maximum - settings.visible) / settings.step) + 1;
+			var pager = 1;
 			
 			// Private variables for each element
         	var originalCoord = { x: 0, y: 0 };
@@ -75,15 +80,18 @@ description		: plugin to made a simple carousel of list objects
 			});
 			
 			if (current == 0){
-				$(settings.prevBtn).addClass('disable');  					// conditional to hide 
+				$(settings.prevBtn).addClass('disable');  					// conditional to hide
+				if (settings.hasPagination) { $(settings._maximun).append(pagination); }
 			}
 			
 			function moveLeft(){
 				if(current + settings.step < 0 || current + settings.step > maximum - settings.visible) {return; }
 				else {
 					current = current + settings.step;
+					pager++;
 					$(container).animate({left: -(settings.liSize * current)}, settings.speed, null);
 					$(settings.prevBtn).removeClass('disable');
+					if (settings.hasPagination) { $(settings._current).empty().append(pager); }
 					if (current + settings.step == maximum) { $(settings.nextBtn).addClass('disable'); }
 				}
 			}
@@ -94,8 +102,10 @@ description		: plugin to made a simple carousel of list objects
 					return; 
 				} else {
 					current = current - settings.step;
+					pager--;
 					$(container).animate({left: -(settings.liSize * current)}, settings.speed, null);
 					$(settings.nextBtn).removeClass('disable');
+					if (settings.hasPagination) { $(settings._current).empty().append(pager); }	
 					if (current == 0) { $(settings.prevBtn).addClass('disable'); }
 				}
 			}
